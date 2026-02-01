@@ -5,15 +5,16 @@ services:
     image: postgres:15
     container_name: queijaria_db
     environment:
-      POSTGRES_USER: pedro
-      POSTGRES_PASSWORD: S1S1@12
-      POSTGRES_DB: queijaria
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - queijaria_pro_postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pedro -d queijaria"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,7 +28,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql+psycopg2://pedro:S1S1@12@db:5432/queijaria
+      DATABASE_URL: ${DATABASE_URL}
       DATA_DIR: /app/data
     volumes:
       - ./:/app:cached
@@ -43,7 +44,7 @@ services:
       - db
       - app
     environment:
-      DATABASE_URL: postgresql+psycopg2://pedro:S1S1@12@db:5432/queijaria
+      DATABASE_URL: ${DATABASE_URL}
       DATA_DIR: /app/data
     volumes:
       - ./:/app:cached

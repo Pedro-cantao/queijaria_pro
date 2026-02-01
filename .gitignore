@@ -1,19 +1,10 @@
-# Ambiente virtual e variáveis
-venv/
+# .gitignore (trecho relevante)
 .env
-
-# Cache do Python
+venv/
 __pycache__/
 *.pyc
 *.pyo
-
-# Logs
-*.log
-
-# Dados locais
+*.pyd
+.env.local
+.DS_Store
 data/
-postgres_data/
-
-# Configurações de IDE
-.vscode/
-.idea/

@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  app:
+    volumes:
+      - ./:/app:cached
+      - ./data:/app/data
+    environment:
+      DEV_MODE: "true"
+      PYTHONUNBUFFERED: "1"
+    command: ["bash", "-lc", "while true; do sleep 3600; done"]
+    restart: unless-stopped
+
+  frontend:
+    volumes:
+      - ./:/app:cached
+      - ./data:/app/data
+    environment:
+      STREAMLIT_SERVER_HEADLESS: "true"
+      STREAMLIT_SERVER_ENABLECORS: "false"
+      STREAMLIT_SERVER_PORT: "8501"
+      DEV_MODE: "true"
+    ports:
+      - "8501:8501"
+    command: ["streamlit", "run", "src/frontend/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: queijaria
+    ports:
+      - "5432:5432"   # <-- adiciona este trecho
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

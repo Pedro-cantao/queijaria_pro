@@ -1,0 +1,19 @@
+# Ambiente virtual e variáveis
+venv/
+.env
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Dados locais
+data/
+postgres_data/
+
+# Configurações de IDE
+.vscode/
+.idea/

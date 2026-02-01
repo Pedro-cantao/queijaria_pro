@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 # -------------------------------------------------------------------
 load_dotenv()
 DB_URL = os.getenv(
-    "DATABASE_URL", "postgresql+psycopg2://admin:admin@localhost:5432/queijaria"
+    "DATABASE_URL"
 )
 
 # Criar engine de conexão
@@ -30,7 +30,8 @@ engine = create_engine(DB_URL, future=True)
 # -------------------------------------------------------------------
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
-os.makedirs(DATA_DIR, exist_ok=True)
+DATA_DIR = os.getenv("DATA_DIR", "/app/data")
+
 
 
 # -------------------------------------------------------------------

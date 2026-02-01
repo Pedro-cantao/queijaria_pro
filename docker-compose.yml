@@ -2,19 +2,18 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:17
+    image: postgres:15
     container_name: queijaria_db
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: pedro
+      POSTGRES_PASSWORD: S1S1@12
       POSTGRES_DB: queijaria
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
     ports:
       - "5432:5432"
+    volumes:
+      - queijaria_pro_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d queijaria"]
+      test: ["CMD-SHELL", "pg_isready -U pedro -d queijaria"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -28,7 +27,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql+psycopg2://admin:admin@db:5432/queijaria
+      DATABASE_URL: postgresql+psycopg2://pedro:S1S1@12@db:5432/queijaria
       DATA_DIR: /app/data
     volumes:
       - ./:/app:cached
@@ -44,7 +43,7 @@ services:
       - db
       - app
     environment:
-      DATABASE_URL: postgresql+psycopg2://admin:admin@db:5432/queijaria
+      DATABASE_URL: postgresql+psycopg2://pedro:S1S1@12@db:5432/queijaria
       DATA_DIR: /app/data
     volumes:
       - ./:/app:cached
@@ -54,4 +53,4 @@ services:
     command: ["streamlit", "run", "src/frontend/app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 
 volumes:
-  postgres_data:
+  queijaria_pro_postgres_data:
